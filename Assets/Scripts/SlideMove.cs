@@ -9,9 +9,12 @@ public class SlideMove : MonoBehaviour,IPointerClickHandler
 { 
     void IPointerClickHandler.OnPointerClick(PointerEventData eventData)
     {
-        Debug.Log("clicked");
         pos = FindAnyObjectByType<Test>().Check(int.Parse(transform.GetChild(0).gameObject.transform.GetChild(0).gameObject.GetComponent<Text>().text),pos);
-        DOTween.To(() => new Vector3(transform.position.x, transform.position.y, 0), x => this.transform.position = x, new Vector3(pos.x, pos.y, 0), 1);
+        DOTween.To(() => new Vector3(transform.position.x, transform.position.y, 0), x => this.transform.position = x, new Vector3(pos.x, pos.y, 0), 0.1f).SetEase(Ease.Linear);
+        if(FindAnyObjectByType<Test>().Clear())
+        {
+            Debug.Log("Clear");
+        }
     }
     Vector2 pos;
         void Start()

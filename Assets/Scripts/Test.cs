@@ -15,7 +15,6 @@ public class Test : MonoBehaviour
     void Start()
     {
         _fixSet = (float)_fieldSize / 2-0.5f;
-        Debug.Log(_fixSet);
         for (int i = 1; i <= _fieldSize * _fieldSize; i++)
         {
             _nums.Add(i);
@@ -43,7 +42,7 @@ public class Test : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        
     }
     public Vector2 Check(int number,Vector2 posi)
     {
@@ -55,7 +54,6 @@ public class Test : MonoBehaviour
             {
                 if (Map[j, i] == number)
                 {
-                    Debug.Log($"{number}‚Í({j},{i})");
                     gx = j;
                     gy = i;
                     i = j = _fieldSize;
@@ -89,5 +87,21 @@ public class Test : MonoBehaviour
         }
         pos = posi;
         return pos;
+    }
+    public bool Clear()
+    {
+        bool isClear = true;
+        for (int i = 0; i < _fieldSize; i++)
+        {
+            for (int j = 0; j < _fieldSize; j++)
+            {
+                if (Map[j, i] != i * _fieldSize + j + 1)
+                {
+                    isClear = false; 
+                    i = j = _fieldSize;
+                }
+            }
+        }
+        return isClear;
     }
 }

@@ -11,8 +11,11 @@ public class Test : MonoBehaviour
     [SerializeField,Range(3,7)] int _fieldSize = 5;
     int[,] Map;
     List<int> _nums = new();
+    float _fixSet;
     void Start()
     {
+        _fixSet = (float)_fieldSize / 2-0.5f;
+        Debug.Log(_fixSet);
         for (int i = 1; i <= _fieldSize * _fieldSize; i++)
         {
             _nums.Add(i);
@@ -31,7 +34,7 @@ public class Test : MonoBehaviour
                 {
                     continue;
                 }
-                GameObject obj = Instantiate(_prehub, new Vector2(j, i), Quaternion.identity);
+                GameObject obj = Instantiate(_prehub, new Vector2(j-_fixSet, i-_fixSet), Quaternion.identity);
                 obj.transform.GetChild(0).gameObject.transform.GetChild(0).gameObject.GetComponent<Text>().text = Map[j, i].ToString();
             }
         }
@@ -59,30 +62,30 @@ public class Test : MonoBehaviour
                 }
             }
         }
-        Vector2 pos = new Vector2(gx, gy);
+        Vector2 pos;
         if (gx - 1 >= 0 && Map[gx - 1, gy] == _fieldSize * _fieldSize)
         {
             Map[gx - 1, gy] = number;
             Map[gx, gy] = _fieldSize * _fieldSize;
-            return new Vector2(gx - 1, gy);
+            return new Vector2(gx - 1-_fixSet, gy - _fixSet);
         }
         if (gy - 1 >= 0 && Map[gx, gy - 1] == _fieldSize * _fieldSize)
         {
             Map[gx, gy - 1] = number;
             Map[gx, gy] = _fieldSize * _fieldSize;
-            return new Vector2(gx, gy - 1);
+            return new Vector2(gx - _fixSet, gy - 1 - _fixSet);
         }
         if (gx + 1 < _fieldSize && Map[gx + 1, gy] == _fieldSize * _fieldSize)
         {
             Map[gx + 1, gy] = number;
             Map[gx, gy] = _fieldSize * _fieldSize;
-            return new Vector2(gx + 1, gy);
+            return new Vector2(gx + 1 - _fixSet, gy - _fixSet);
         }
         if (gy + 1 < _fieldSize && Map[gx, gy + 1] == _fieldSize * _fieldSize)
         {
             Map[gx, gy + 1] = number;
             Map[gx, gy] = _fieldSize * _fieldSize;
-            return new Vector2(gx, gy + 1);
+            return new Vector2(gx - _fixSet, gy + 1 - _fixSet);
         }
         pos = posi;
         return pos;

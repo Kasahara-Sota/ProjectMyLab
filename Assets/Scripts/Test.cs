@@ -8,7 +8,7 @@ public class Test : MonoBehaviour
 {
     [Header("パズルのタイルのプレハブ")]
     [SerializeField] GameObject _prehub;
-    int _fieldSize = 5;
+    [SerializeField,Range(3,7)] int _fieldSize = 5;
     int[,] Map;
     List<int> _nums = new();
     void Start()
@@ -27,7 +27,7 @@ public class Test : MonoBehaviour
                 int rand = Random.Range(0, _nums.Count);
                 Map[j, i] = _nums[rand];
                 _nums.Remove(Map[j, i]);
-                if (Map[j, i] == 25)
+                if (Map[j, i] == _fieldSize*_fieldSize)
                 {
                     continue;
                 }
@@ -60,28 +60,28 @@ public class Test : MonoBehaviour
             }
         }
         Vector2 pos = new Vector2(gx, gy);
-        if (gx - 1 >= 0 && Map[gx - 1, gy] == 25)
+        if (gx - 1 >= 0 && Map[gx - 1, gy] == _fieldSize * _fieldSize)
         {
             Map[gx - 1, gy] = number;
-            Map[gx, gy] = 25;
+            Map[gx, gy] = _fieldSize * _fieldSize;
             return new Vector2(gx - 1, gy);
         }
-        if (gy - 1 >= 0 && Map[gx, gy - 1] == 25)
+        if (gy - 1 >= 0 && Map[gx, gy - 1] == _fieldSize * _fieldSize)
         {
             Map[gx, gy - 1] = number;
-            Map[gx, gy] = 25;
+            Map[gx, gy] = _fieldSize * _fieldSize;
             return new Vector2(gx, gy - 1);
         }
-        if (gx + 1 < _fieldSize && Map[gx + 1, gy] == 25)
+        if (gx + 1 < _fieldSize && Map[gx + 1, gy] == _fieldSize * _fieldSize)
         {
             Map[gx + 1, gy] = number;
-            Map[gx, gy] = 25;
+            Map[gx, gy] = _fieldSize * _fieldSize;
             return new Vector2(gx + 1, gy);
         }
-        if (gy + 1 < _fieldSize && Map[gx, gy + 1] == 25)
+        if (gy + 1 < _fieldSize && Map[gx, gy + 1] == _fieldSize * _fieldSize)
         {
             Map[gx, gy + 1] = number;
-            Map[gx, gy] = 25;
+            Map[gx, gy] = _fieldSize * _fieldSize;
             return new Vector2(gx, gy + 1);
         }
         pos = posi;

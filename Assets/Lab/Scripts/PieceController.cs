@@ -1,0 +1,111 @@
+using System.Collections;
+using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEngine;
+
+public class PieceController : MonoBehaviour
+{
+    [SerializeField] bool _canRotate;
+    private bool _isClick;
+    bool col;
+    int col2 = 0;
+    int col3 = 0;
+    public bool OnBoard { get; private set; } = true;
+    public bool OnSwitch {  get; set; }
+    Vector2 _pos;
+    private void Update()
+    {
+        if (_isClick)
+        {
+            Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            //Debug.Log(pos);
+            if (col2 == 0)
+            {
+                if (col3 == 0)
+                {
+                 pos.x = (int)(pos.x + 0.5f);
+                 pos.y = (int)(pos.y + 0.5f);
+                }
+            }
+            //Debug.Log(pos);
+            this.transform.parent.position = pos + Vector3.forward * 10;
+            if(Input.GetKeyDown(KeyCode.R))
+            {
+                Vector3 rotate = this.transform.parent.transform.eulerAngles;
+                rotate.z += 90;
+                this.transform.parent.transform.eulerAngles = rotate;
+            }
+        }
+        if(!OnSwitch)
+        {
+            Released();
+        }
+    }
+    public void Clicked()
+    {
+        if (_isClick && !OnSwitch)
+        {
+            return;
+        }
+        GameObject obj = new GameObject();
+        Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        //Debug.Log(pos);
+        pos.x = (int)(pos.x + 0.5f);
+        pos.y = (int)(pos.y + 0.5f);
+        obj.transform.position = pos;
+        transform.SetParent(obj.transform);
+        _pos = transform.parent.position;
+        //Debug.Log(this.gameObject.name);
+        _isClick = true;
+    }
+    public void Released()
+    {
+        if (!_isClick)
+        {
+            return;
+        }
+        if (col3 == 0)
+        {
+            OnBoard = false;
+            if(col2 > 0)
+            transform.parent.position = _pos;
+        }
+        else
+        {
+            Debug.Log($"{col3},{transform.childCount}");
+            if(col3 != transform.childCount)
+            {
+                transform.parent.position = _pos;
+            }
+            else
+            {
+                OnBoard = true;
+            }
+        }
+        Vector2 pos = transform.position;
+        pos.x = (int)(pos.x + 0.5f);
+        pos.y = (int)(pos.y + 0.5f);
+        transform.position = pos;
+        Transform parent = transform.parent;
+        transform.SetParent(null);
+        Destroy(parent.gameObject);
+        _isClick = false;
+    }
+    //private void OnTriggerStay2D(Collider2D collision)
+    //{
+
+    //        Debug.Log(collision.gameObject);
+    //        Debug.Log("sasa");
+    //        col = true;
+
+    //}
+
+    public void Collision(int quantity)
+    {
+        col2 += quantity;
+    }
+    public void OnStorage(int quantity)
+    {
+        col3 += quantity;
+    }
+}

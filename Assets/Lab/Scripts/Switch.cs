@@ -7,6 +7,11 @@ public class Switch : MonoBehaviour
     [SerializeField] GameObject _Door;
     [SerializeField] GameObject[] Pieces;
     bool flag = false;
+    DoorController _controller;
+    private void Start()
+    {
+        _controller = _Door.GetComponent<DoorController>();
+    }
     public void Check()
     {
         flag = true;
@@ -25,14 +30,12 @@ public class Switch : MonoBehaviour
         if(flag)
         {
             //Debug.Log("Open");
-            _Door.gameObject.GetComponent<Collider2D>().enabled = false;
-            _Door.gameObject.GetComponent<SpriteRenderer>().color = Color.white;
+            _controller.IsUseAllPiece = true;
         }
         else
         {
             //Debug.Log("Close");
-            _Door.gameObject.GetComponent<Collider2D>().enabled = true;
-            _Door.gameObject.GetComponent<SpriteRenderer>().color = Color.black;
+            _controller.IsUseAllPiece= false;
         }
     }
     private void OnTriggerEnter2D(Collider2D collision)

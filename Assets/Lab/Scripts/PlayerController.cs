@@ -8,7 +8,8 @@ public class PlayerController : MonoBehaviour
     /// <summary>移動を妨害するコライダーが所属するレイヤーを指定する</summary>
     [SerializeField] LayerMask m_walkableLayerMask;
     /// <summary>移動中フラグ</summary>
-    public bool m_isMoving = false;
+    public bool m_isMoving { get; private set; } = false;
+    public int KeyCount { get; set; }
     Rigidbody2D _rb;
     // Start is called before the first frame update
     void Start()
@@ -81,5 +82,9 @@ public class PlayerController : MonoBehaviour
         }
 
         m_isMoving = false;
+        if (KeyCount > 0)
+        {
+            KeyCount--;
+        }
     }
 }

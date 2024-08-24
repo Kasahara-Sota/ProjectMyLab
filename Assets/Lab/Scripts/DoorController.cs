@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class DoorController : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class DoorController : MonoBehaviour
     private bool AllFlag;
     public bool IsUseAllPiece;
     public bool IsUseKey;
+    public bool OnDoorSwitch;
     Collider2D _col;
     SpriteRenderer _spriteRenderer;
     PlayerController _playerController;
@@ -24,6 +26,7 @@ public class DoorController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        transform.GetChild(0).gameObject.transform.GetChild(0).gameObject.GetComponent<Text>().text = _playerController.KeyCount.ToString();
         AllFlag = true;
         if(_isUseAllPiece)
         {
@@ -39,7 +42,7 @@ public class DoorController : MonoBehaviour
                 AllFlag = false;
             }
         }
-        if (AllFlag)
+        if (AllFlag || OnDoorSwitch)
         {
             DoorOpen();
         }

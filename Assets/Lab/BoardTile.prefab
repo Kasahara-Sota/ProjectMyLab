@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8952652863281561829}
   - component: {fileID: 4371137907141445487}
   - component: {fileID: 6272006961924058344}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: BoardTile
   m_TagString: Untagged
   m_Icon: {fileID: 0}

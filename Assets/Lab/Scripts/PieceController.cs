@@ -15,6 +15,7 @@ public class PieceController : MonoBehaviour
     Vector2 _pos;
     private void Update()
     {
+        //Debug.Log(Cursor.lockState);
         if (_isClick)
         {
             Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -47,6 +48,7 @@ public class PieceController : MonoBehaviour
         {
             return;
         }
+        Cursor.lockState = CursorLockMode.Confined;
         GameObject obj = new GameObject();
         Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         //Debug.Log(pos);
@@ -64,6 +66,7 @@ public class PieceController : MonoBehaviour
         {
             return;
         }
+        Cursor.lockState = CursorLockMode.None;
         if (col3 == 0)
         {
             OnBoard = false;

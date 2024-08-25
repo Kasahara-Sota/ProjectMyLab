@@ -8,9 +8,11 @@ public class Switch : MonoBehaviour
     [SerializeField] GameObject[] Pieces;
     bool flag = false;
     DoorController _controller;
+    SpriteRenderer _spriteRenderer;
     private void Start()
     {
         _controller = _Door.GetComponent<DoorController>();
+        _spriteRenderer = GetComponent<SpriteRenderer>();
     }
     public void Check()
     {
@@ -42,6 +44,7 @@ public class Switch : MonoBehaviour
     {
         if(collision.CompareTag("Player"))
         {
+            _spriteRenderer.color = Color.cyan;
             foreach(GameObject p in Pieces)
             {
                 p.GetComponent<PieceController>().OnSwitch = true;
@@ -52,6 +55,7 @@ public class Switch : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
+            _spriteRenderer.color = Color.gray;
             foreach (GameObject p in Pieces)
             {
                 p.GetComponent<PieceController>().OnSwitch = false;

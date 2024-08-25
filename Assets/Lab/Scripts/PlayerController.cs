@@ -5,6 +5,8 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] float _moveTime = 1;
+    [SerializeField] float _fleezeMove = 0.1f;
+    float _fleezeTimer = 0;
     /// <summary>移動を妨害するコライダーが所属するレイヤーを指定する</summary>
     [SerializeField] LayerMask m_walkableLayerMask;
     /// <summary>移動中フラグ</summary>
@@ -14,6 +16,7 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //_fleezeMove += _moveTime;
         _rb = GetComponent<Rigidbody2D>();
     }
 
@@ -22,11 +25,12 @@ public class PlayerController : MonoBehaviour
     {
         float x = Input.GetAxisRaw("Horizontal");
         float y = Input.GetAxisRaw("Vertical");
-        if (!m_isMoving)
+        if (!m_isMoving && _fleezeTimer > _fleezeMove)
         {
             Move(0, (int)y, _moveTime);
             Move((int)x,0,_moveTime);
         }
+        _fleezeTimer += Time.deltaTime;
     }
     /// <summary>Move で指定された目的地を保存する</summary>
     Vector2Int m_destination;
@@ -80,7 +84,7 @@ public class PlayerController : MonoBehaviour
             this.transform.position = Vector2.MoveTowards(this.transform.position, m_destination, Time.deltaTime / moveTime);
             yield return new WaitForEndOfFrame();
         }
-
+        _fleezeTimer = 0;
         m_isMoving = false;
         if (KeyCount > 0)
         {

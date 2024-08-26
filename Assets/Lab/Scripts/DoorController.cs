@@ -8,10 +8,12 @@ public class DoorController : MonoBehaviour
     [SerializeField] GameObject _player;
     [SerializeField] bool _isUseAllPiece;
     [SerializeField] bool _isUseKey;
+    [SerializeField] bool _isUseConnectKey;
     private bool AllFlag;
-    public bool IsUseAllPiece;
-    public bool IsUseKey;
-    public bool OnDoorSwitch;
+    [HideInInspector] public bool IsUseAllPiece;
+    [HideInInspector] public bool IsUseKey;
+    [HideInInspector] public bool ConnectKeyStatus;
+    [HideInInspector] public bool OnDoorSwitch;
     Collider2D _col;
     SpriteRenderer _spriteRenderer;
     PlayerController _playerController;
@@ -26,18 +28,25 @@ public class DoorController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.GetChild(0).gameObject.transform.GetChild(0).gameObject.GetComponent<Text>().text = _playerController.KeyCount.ToString();
         AllFlag = true;
-        if(_isUseAllPiece)
+        if (_isUseAllPiece)
         {
-            if(!IsUseAllPiece)
+            if (!IsUseAllPiece)
             {
                 AllFlag = false;
             }
         }
         if (_isUseKey)
         {
+            transform.GetChild(0).gameObject.transform.GetChild(0).gameObject.GetComponent<Text>().text = _playerController.KeyCount.ToString();
             if (_playerController.KeyCount == 0)
+            {
+                AllFlag = false;
+            }
+        }
+        if (_isUseConnectKey)
+        {
+            if (!ConnectKeyStatus)
             {
                 AllFlag = false;
             }

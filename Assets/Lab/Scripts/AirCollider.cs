@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class AirCollider : MonoBehaviour
 {
-    int _colCount = 0;
+    public int ColCount { get; private set; } = 0;
+    public int OnConnectSwitch { get; private set; } = 0;
     // Start is called before the first frame update
     void Start()
     {
@@ -21,8 +22,12 @@ public class AirCollider : MonoBehaviour
         if (collision.CompareTag("Piece"))
         {
             //Debug.Log($"{this.gameObject}ÇÕ{collision.name}Ç…Enter");
-            _colCount++;
+            ColCount++;
             this.gameObject.transform.parent.GetComponent<Collider2D>().enabled = false;
+        }
+        else if(collision.CompareTag("ConnectKey"))
+        {
+            OnConnectSwitch+=2;
         }
     }
     private void OnTriggerExit2D(Collider2D collision)
@@ -30,12 +35,16 @@ public class AirCollider : MonoBehaviour
         if (collision.CompareTag("Piece"))
         {
             //Debug.Log($"{this.gameObject}ÇÕ{collision.name}Ç©ÇÁExit");
-            _colCount--;
+            ColCount--;
             //this.gameObject.transform.parent.GetComponent<Collider2D>().enabled = true;
-            if (_colCount == 0)
+            if (ColCount == 0)
             {
                 this.gameObject.transform.parent.GetComponent<Collider2D>().enabled = true;
             }
+        }
+        else if(collision.CompareTag("ConnectKey"))
+        {
+            OnConnectSwitch-=2;
         }
     }
 }

@@ -15,7 +15,7 @@ public class WarpControler : MonoBehaviour
     }
     private void OnTriggerStay2D(Collider2D collision)
     {
-        Debug.Log(OnPiece);
+        //Debug.Log(OnPiece);
         if (collision.CompareTag("Player") && CanWarp && !collision.gameObject.GetComponent<PlayerController>().m_isMoving)
         {
             if (_warp.OnPiece && !_warp.OnStorage)

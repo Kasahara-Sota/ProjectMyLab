@@ -6,13 +6,16 @@ public class Switch : MonoBehaviour
 {
     [SerializeField] GameObject _Door;
     [SerializeField] GameObject[] Pieces;
+    [SerializeField] GameObject _board;
     bool flag = false;
     DoorController _controller;
     SpriteRenderer _spriteRenderer;
+    BoardController _boardController;
     private void Start()
     {
         _controller = _Door.GetComponent<DoorController>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
+        _boardController = _board?.GetComponent<BoardController>();
     }
     public void Check()
     {
@@ -60,6 +63,10 @@ public class Switch : MonoBehaviour
             {
                 p.GetComponent<PieceController>().OnSwitch = false;
             }
+        }
+        if(_boardController != null)
+        {
+            _controller.ConnectKeyStatus = _boardController.CheckConnect();
         }
         Check();
         DoorOpen();

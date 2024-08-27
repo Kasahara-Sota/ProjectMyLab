@@ -58,7 +58,7 @@ public class InstantiateTile : EditorWindow
             _mousePosition = new Vector3(currentEvent.mousePosition.x,
                 Camera.current.pixelHeight - currentEvent.mousePosition.y,
                 0);
-            Debug.Log(_mousePosition);
+            //Debug.Log(_mousePosition);
             Create();
             //Debug.Log(currentEvent.type);
 

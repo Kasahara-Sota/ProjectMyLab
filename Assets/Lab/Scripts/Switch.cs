@@ -7,15 +7,18 @@ public class Switch : MonoBehaviour
     [SerializeField] GameObject _Door;
     [SerializeField] GameObject[] Pieces;
     [SerializeField] GameObject _board;
+    [SerializeField] GameObject _sequentiallyObject;
     bool flag = false;
     DoorController _controller;
     SpriteRenderer _spriteRenderer;
     BoardController _boardController;
+    SequentiallySwitchController _sequentiallyController;
     private void Start()
     {
         _controller = _Door.GetComponent<DoorController>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _boardController = _board?.GetComponent<BoardController>();
+        _sequentiallyController = _sequentiallyObject.GetComponent<SequentiallySwitchController>();
     }
     public void Check()
     {
@@ -51,6 +54,10 @@ public class Switch : MonoBehaviour
             foreach(GameObject p in Pieces)
             {
                 p.GetComponent<PieceController>().OnSwitch = true;
+            }
+            if (_sequentiallyController != null)
+            {
+                _sequentiallyController.Check(-1);
             }
         }
     }

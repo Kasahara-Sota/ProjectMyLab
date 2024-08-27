@@ -12,13 +12,13 @@ public class BoardController : MonoBehaviour
     {
         w = transform.GetChild(0).gameObject.transform.childCount;
         h = transform.childCount;
-        Map = new int [w,h];
+        Map = new int[w, h];
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
     public bool CheckConnect()
     {
@@ -32,26 +32,30 @@ public class BoardController : MonoBehaviour
             }
         }
         //None = 0;OnlyPiece = 1;OnlyConnectKey = 2;Piece&ConnectKey = 3;Checked = 4;
-        for(int i = 0;i<h;i++)
+        for (int i = 0; i < h; i++)
         {
-            for(int j = 0;j < w;j++)
+            for (int j = 0; j < w; j++)
             {
-                if (Map[j,i] == 4)
+                //Debug.Log($"{j},{i}={Map[j, i]}");
+                if (Map[j, i] == 4)
                 {
                     continue;
                 }
-                else if(Map[j,i] == 2)
+                else
+                if (Map[j, i] == 2)
                 {
-                    if(!BFS(j,i,2,0))
+                    //Debug.Log($"{j},{i}にダイヤを発見");
+                    if (!BFS(j, i, 2, 0))
                     {
                         i = h;
                         j = w;
                         Connect = false;
                     }
                 }
-                else if( Map[j,i] == 3)
+                else if (Map[j, i] == 3)
                 {
-                    if(!BFS(j,i,3,1))
+                    //Debug.Log($"{j},{i}にダイヤを発見");
+                    if (!BFS(j, i, 3, 1))
                     {
                         i = h;
                         j = w;
@@ -62,79 +66,88 @@ public class BoardController : MonoBehaviour
         }
         return Connect;
     }
-    private bool BFS(int StartX,int StartY,int TargetNumber,int RoadNumber)
+    private bool BFS(int StartX, int StartY, int TargetNumber, int RoadNumber)
     {
         Queue<int> queue = new Queue<int>();
         int ConnectKeyCount = 1;
         queue.Enqueue(StartX);
         queue.Enqueue(StartY);
-        Map[StartX,StartY] = 4;
+        Map[StartX, StartY] = 4;
+        //Debug.Log($"{StartX},{StartY}は");
         while (queue.Count > 0)
         {
             int gx = queue.Dequeue();
             int gy = queue.Dequeue();
-            if(gx - 1 >= 0)
+            if (gx - 1 >= 0)
             {
-                if(Map[gx - 1, gy] == RoadNumber)
+                if (Map[gx - 1, gy] == RoadNumber)
                 {
                     queue.Enqueue(gx - 1);
                     queue.Enqueue(gy);
+                    Map[gx - 1, gy] = 4;
                 }
-                else if (Map[gx-1,gy] == TargetNumber)
+                else if (Map[gx - 1, gy] == TargetNumber)
                 {
                     ConnectKeyCount++;
                     queue.Enqueue(gx - 1);
                     queue.Enqueue(gy);
+                    //Debug.Log($"{gx - 1},{gy}とコネクト");
+                    Map[gx - 1, gy] = 4;
                 }
-                Map[gx - 1, gy] = 4;
             }
-            if(gy - 1 >= 0)
+            if (gy - 1 >= 0)
             {
                 if (Map[gx, gy - 1] == RoadNumber)
                 {
                     queue.Enqueue(gx);
                     queue.Enqueue(gy - 1);
+                    Map[gx, gy - 1] = 4;
                 }
                 else if (Map[gx, gy - 1] == TargetNumber)
                 {
                     ConnectKeyCount++;
                     queue.Enqueue(gx);
                     queue.Enqueue(gy - 1);
+                    //Debug.Log($"{gx},{gy - 1}とコネクト");
+                    Map[gx, gy - 1] = 4;
                 }
-                Map[gx, gy - 1] = 4;
             }
-            if(gx + 1 < w)
+            if (gx + 1 < w)
             {
                 if (Map[gx + 1, gy] == RoadNumber)
                 {
                     queue.Enqueue(gx + 1);
                     queue.Enqueue(gy);
+                    Map[gx + 1, gy] = 4;
                 }
                 else if (Map[gx + 1, gy] == TargetNumber)
                 {
                     ConnectKeyCount++;
                     queue.Enqueue(gx + 1);
                     queue.Enqueue(gy);
+                    //Debug.Log($"{gx + 1} , {gy}とコネクト");
+                    Map[gx + 1, gy] = 4;
                 }
-                Map[gx + 1, gy] = 4;
             }
-            if(gy + 1 < h)
+            if (gy + 1 < h)
             {
                 if (Map[gx, gy + 1] == RoadNumber)
                 {
                     queue.Enqueue(gx);
                     queue.Enqueue(gy + 1);
+                    Map[gx, gy + 1] = 4;
                 }
                 else if (Map[gx, gy + 1] == TargetNumber)
                 {
                     ConnectKeyCount++;
                     queue.Enqueue(gx);
                     queue.Enqueue(gy + 1);
+                    //Debug.Log($"{gx} , {gy + 1}とコネクト");
+                    Map[gx, gy + 1] = 4;
                 }
-                Map[gx, gy + 1] = 4;
             }
         }
-        if(ConnectKeyCount == 2)
+        if (ConnectKeyCount == 2)
         {
             return true;
         }

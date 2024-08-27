@@ -77,7 +77,7 @@ public class PlayerController : MonoBehaviour
         // ˆÚ“®æ‚ðŒvŽZ‚·‚é
         Vector2Int origin = Vector2Int.RoundToInt(this.transform.position);
         m_destination = origin + new Vector2Int(x, y);
-        Debug.Log("StartRoutine");
+        //Debug.Log("StartRoutine");
         while (Vector2.Distance(this.transform.position, m_destination) > float.Epsilon)
         {
             Vector2 velocity = Vector2.zero;

@@ -6,6 +6,7 @@ public class AirCollider : MonoBehaviour
 {
     public int ColCount { get; private set; } = 0;
     public int OnConnectSwitch { get; private set; } = 0;
+    public int MustConnectCount { get; private set; } = 0;
     // Start is called before the first frame update
     void Start()
     {
@@ -29,6 +30,10 @@ public class AirCollider : MonoBehaviour
         {
             OnConnectSwitch+=2;
         }
+        else if(collision.CompareTag("ConnectCounter"))
+        {
+            MustConnectCount += collision.gameObject.GetComponent<ConnectCounter>().ConnectCount;
+        }
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
@@ -45,6 +50,10 @@ public class AirCollider : MonoBehaviour
         else if(collision.CompareTag("ConnectKey"))
         {
             OnConnectSwitch-=2;
+        }
+        else if (collision.CompareTag("ConnectCounter"))
+        {
+            MustConnectCount -= collision.gameObject.GetComponent<ConnectCounter>().ConnectCount;
         }
     }
 }

@@ -20,7 +20,7 @@ public class Switch : MonoBehaviour
         _boardController = _board?.GetComponent<BoardController>();
         _sequentiallyController = _sequentiallyObject.GetComponent<SequentiallySwitchController>();
     }
-    public void Check()
+    public void CheckUseAllPiece()
     {
         flag = true;
         foreach (GameObject p in Pieces)
@@ -74,8 +74,9 @@ public class Switch : MonoBehaviour
         if(_boardController != null)
         {
             _controller.ConnectKeyStatus = _boardController.CheckConnect();
+            _controller.IsConnectCounter = _boardController._isConnectCount;
         }
-        Check();
+        CheckUseAllPiece();
         DoorOpen();
     }
 }

@@ -10,12 +10,14 @@ public class DoorController : MonoBehaviour
     [SerializeField] bool _isUseKey;
     [SerializeField] bool _isUseConnectKey;
     [SerializeField] bool _isUseSequentiallySwitch;
+    [SerializeField] bool _isUseConnectCounter;
     private bool AllFlag;
     [HideInInspector] public bool IsUseAllPiece;
     [HideInInspector] public bool IsUseKey;
     [HideInInspector] public bool ConnectKeyStatus;
     [HideInInspector] public bool OnDoorSwitch;
     [HideInInspector] public bool PressedAllSequentiallySwitch;
+    [HideInInspector] public bool IsConnectCounter;
     Collider2D _col;
     SpriteRenderer _spriteRenderer;
     PlayerController _playerController;
@@ -56,6 +58,13 @@ public class DoorController : MonoBehaviour
         if (_isUseSequentiallySwitch)
         {
             if(!PressedAllSequentiallySwitch)
+            {
+                AllFlag = false;
+            }
+        }
+        if (_isUseConnectCounter)
+        {
+            if(!IsConnectCounter)
             {
                 AllFlag = false;
             }

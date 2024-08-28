@@ -7,6 +7,10 @@ public class BoardController : MonoBehaviour
     int[,] Map;
     int h;
     int w;
+    List<string> _counterPos = new List<string>();
+    List<int> _mustConnect = new List<int>();
+    public bool _isConnectCount { get; private set; }
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -23,13 +27,27 @@ public class BoardController : MonoBehaviour
     public bool CheckConnect()
     {
         bool Connect = true;
+        _isConnectCount = false;
+        _counterPos.Clear();
+        _mustConnect.Clear();
         for (int i = 0; i < h; i++)
         {
             for (int j = 0; j < w; j++)
             {
                 AirCollider Status = transform.GetChild(i).gameObject.transform.GetChild(j).gameObject.transform.GetChild(0).GetComponent<AirCollider>();
                 Map[j, i] = Status.ColCount + Status.OnConnectSwitch;
+                if(Status.MustConnectCount > 0)
+                {
+                    string pos = $"{j},{i}";
+                    _counterPos.Add(pos);
+                    _mustConnect.Add(Status.MustConnectCount);
+                }
+                    //Debug.Log(Status.MustConnectCount);
             }
+        }
+        if(_mustConnect.Count > 0)
+        {
+            _isConnectCount = true;
         }
         //None = 0;OnlyPiece = 1;OnlyConnectKey = 2;Piece&ConnectKey = 3;Checked = 4;
         for (int i = 0; i < h; i++)
@@ -41,24 +59,19 @@ public class BoardController : MonoBehaviour
                 {
                     continue;
                 }
-                else
-                if (Map[j, i] == 2)
+                else if (Map[j, i] == 2 || Map[j, i] == 0)
                 {
                     //Debug.Log($"{j},{i}にダイヤを発見");
                     if (!BFS(j, i, 2, 0))
                     {
-                        i = h;
-                        j = w;
                         Connect = false;
                     }
                 }
-                else if (Map[j, i] == 3)
+                else if (Map[j, i] == 3 || Map[j, i] == 1)
                 {
                     //Debug.Log($"{j},{i}にダイヤを発見");
                     if (!BFS(j, i, 3, 1))
                     {
-                        i = h;
-                        j = w;
                         Connect = false;
                     }
                 }
@@ -69,15 +82,24 @@ public class BoardController : MonoBehaviour
     private bool BFS(int StartX, int StartY, int TargetNumber, int RoadNumber)
     {
         Queue<int> queue = new Queue<int>();
-        int ConnectKeyCount = 1;
+        int ConnectKeyCount = 0;
         queue.Enqueue(StartX);
         queue.Enqueue(StartY);
-        Map[StartX, StartY] = 4;
+        int mustConnect = -1;
+        bool isMustConnect = false;
         //Debug.Log($"{StartX},{StartY}は");
         while (queue.Count > 0)
         {
+            mustConnect++;
             int gx = queue.Dequeue();
             int gy = queue.Dequeue();
+            string pos = $"{gx},{gy}";
+            int index = _counterPos.BinarySearch(pos);
+            if (index>=0)
+            {
+                mustConnect -= _mustConnect[index];
+                isMustConnect = true;
+            }
             if (gx - 1 >= 0)
             {
                 if (Map[gx - 1, gy] == RoadNumber)
@@ -147,7 +169,12 @@ public class BoardController : MonoBehaviour
                 }
             }
         }
-        if (ConnectKeyCount == 2)
+        Debug.Log(mustConnect);
+        if(isMustConnect&&mustConnect!=0)
+        {
+            _isConnectCount = false;
+        }
+        if (ConnectKeyCount == 2 || ConnectKeyCount == 0)
         {
             return true;
         }

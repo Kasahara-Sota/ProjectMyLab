@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -39,13 +40,14 @@ public class SequentiallySwitchController : MonoBehaviour
     public void CheckPressedAll()
     {
         bool pressedAll = true;
-        foreach (var item in _SequentiallySwitch)
-        {
-            if (!item.GetComponent<SequentiallySwitch>().Pressed)
-            {
-                pressedAll= false;
-            }
-        }
+        //foreach (var item in _SequentiallySwitch)
+        //{
+        //    if (!item.GetComponent<SequentiallySwitch>().Pressed)
+        //    {
+        //        pressedAll= false;break;
+        //    }
+        //}
+        pressedAll =  !_SequentiallySwitch.Any( i => i.GetComponent< SequentiallySwitch >().Pressed == false);
         _door.GetComponent<DoorController>().PressedAllSequentiallySwitch = pressedAll;
         Debug.Log(pressedAll);
     }

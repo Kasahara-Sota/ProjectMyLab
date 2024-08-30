@@ -169,7 +169,7 @@ public class BoardController : MonoBehaviour
                 }
             }
         }
-        Debug.Log(mustConnect);
+        //Debug.Log(mustConnect);
         if(isMustConnect&&mustConnect!=0)
         {
             _isConnectCount = false;

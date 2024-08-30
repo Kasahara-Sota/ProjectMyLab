@@ -75,7 +75,7 @@ public class PieceController : MonoBehaviour
         }
         else
         {
-            Debug.Log($"{col3},{transform.childCount}");
+            //Debug.Log($"{col3},{transform.childCount}");
             if(col3 != transform.childCount)
             {
                 transform.parent.position = _pos;

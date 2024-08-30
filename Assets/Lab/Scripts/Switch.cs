@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Switch : MonoBehaviour
@@ -15,43 +16,49 @@ public class Switch : MonoBehaviour
     SequentiallySwitchController _sequentiallyController;
     private void Start()
     {
-        _controller = _Door.GetComponent<DoorController>();
+        _controller = _Door != null ? _Door.GetComponent<DoorController>() : null;
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _boardController = _board?.GetComponent<BoardController>();
-        _sequentiallyController = _sequentiallyObject.GetComponent<SequentiallySwitchController>();
+        _sequentiallyController = _sequentiallyObject != null ? _sequentiallyObject.GetComponent<SequentiallySwitchController>() : null;
     }
     public void CheckUseAllPiece()
     {
-        flag = true;
-        foreach (GameObject p in Pieces)
+        if (Pieces.Length > 0)
         {
-            //Debug.Log(p.GetComponent<PieceController>().OnBoard);
-            if(p.GetComponent<PieceController>().OnBoard)
+            flag = true;
+            foreach (GameObject p in Pieces)
             {
-                flag = false; break;
+                //Debug.Log(p.GetComponent<PieceController>().OnBoard);
+                if (p.GetComponent<PieceController>().OnBoard)
+                {
+                    flag = false; break;
+                }
             }
         }
     }
     public void DoorOpen()
     {
         Debug.Log("DoorOpen");
-        if(flag)
+        if (_controller != null)
         {
-            //Debug.Log("Open");
-            _controller.IsUseAllPiece = true;
-        }
-        else
-        {
-            //Debug.Log("Close");
-            _controller.IsUseAllPiece= false;
+            if (flag)
+            {
+                //Debug.Log("Open");
+                _controller.IsUseAllPiece = true;
+            }
+            else
+            {
+                //Debug.Log("Close");
+                _controller.IsUseAllPiece = false;
+            }
         }
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.CompareTag("Player"))
+        if (collision.CompareTag("Player"))
         {
             _spriteRenderer.color = Color.cyan;
-            foreach(GameObject p in Pieces)
+            foreach (GameObject p in Pieces)
             {
                 p.GetComponent<PieceController>().OnSwitch = true;
             }
@@ -71,7 +78,7 @@ public class Switch : MonoBehaviour
                 p.GetComponent<PieceController>().OnSwitch = false;
             }
         }
-        if(_boardController != null)
+        if (_boardController != null)
         {
             _controller.ConnectKeyStatus = _boardController.CheckConnect();
             _controller.IsConnectCounter = _boardController._isConnectCount;

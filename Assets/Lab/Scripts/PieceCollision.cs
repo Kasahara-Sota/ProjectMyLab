@@ -6,7 +6,7 @@ public class PieceCollision : MonoBehaviour
 {
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        //Debug.Log($"col{collision.name}");
+        //Debug.Log($"{transform.name}ÇÃêe{transform.parent}ÇÃ{transform.parent.GetComponent<PieceController>()}");
         if(collision.CompareTag("Piece"))
             transform?.parent?.GetComponent<PieceController>().Collision(1);
         if (collision.CompareTag("Storage"))

@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class DoorController : MonoBehaviour
 {
-    [SerializeField] GameObject _player;
     [SerializeField] bool _isUseAllPiece;
     [SerializeField] bool _isUseKey;
     [SerializeField] bool _isUseConnectKey;
@@ -26,7 +25,7 @@ public class DoorController : MonoBehaviour
     {
         _col = GetComponent<Collider2D>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
-        _playerController = _player.GetComponent<PlayerController>();
+        _playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
     }
 
     // Update is called once per frame

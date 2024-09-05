@@ -16,7 +16,6 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //_fleezeMove += _moveTime;
         _rb = GetComponent<Rigidbody2D>();
     }
 
@@ -50,7 +49,7 @@ public class PlayerController : MonoBehaviour
     /// <param name="y">ˆÚ“®‚·‚é Y À•W</param>
     /// <param name="moveTime">‰½•b‚©‚¯‚ÄˆÚ“®‚·‚é‚©</param>
     /// <returns>ˆÚ“®‰Â”\‚Èê‡‚Í true, ˆÚ“®‚Å‚«‚È‚¢ê‡‚Í false</returns>
-    public void Move(int x, int y, float moveTime)
+    private void Move(int x, int y, float moveTime)
     {
         //m_isMoving = false;
         // w’è‚³‚ê‚½•ûŒü‚ÉˆÚ“®‚Å‚«‚é‚©‚Ç‚¤‚©”»’è‚·‚é

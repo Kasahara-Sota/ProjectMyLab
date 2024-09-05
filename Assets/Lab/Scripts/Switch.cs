@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using Cinemachine;
 
 public class Switch : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class Switch : MonoBehaviour
     [SerializeField] GameObject[] Pieces;
     [SerializeField] GameObject _board;
     [SerializeField] GameObject _sequentiallyObject;
+    [SerializeField] CinemachineVirtualCamera _virtualCamera;
     bool flag = false;
     DoorController _controller;
     SpriteRenderer _spriteRenderer;
@@ -18,7 +20,7 @@ public class Switch : MonoBehaviour
     {
         _controller = _Door != null ? _Door.GetComponent<DoorController>() : null;
         _spriteRenderer = GetComponent<SpriteRenderer>();
-        _boardController = _board?.GetComponent<BoardController>();
+        _boardController = _board != null ? _board.GetComponent<BoardController>() : null;
         _sequentiallyController = _sequentiallyObject != null ? _sequentiallyObject.GetComponent<SequentiallySwitchController>() : null;
     }
     public void CheckUseAllPiece()
@@ -29,9 +31,12 @@ public class Switch : MonoBehaviour
             foreach (GameObject p in Pieces)
             {
                 //Debug.Log(p.GetComponent<PieceController>().OnBoard);
-                if (p.GetComponent<PieceController>().OnBoard)
+                if (p != null)
                 {
-                    flag = false; break;
+                    if (p.GetComponent<PieceController>().OnBoard)
+                    {
+                        flag = false; break;
+                    }
                 }
             }
         }
@@ -57,10 +62,14 @@ public class Switch : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
+            _virtualCamera.Priority = 100;
             _spriteRenderer.color = Color.cyan;
             foreach (GameObject p in Pieces)
             {
-                p.GetComponent<PieceController>().OnSwitch = true;
+                if (p != null)
+                {
+                    p.GetComponent<PieceController>().OnSwitch = true;
+                }
             }
             if (_sequentiallyController != null)
             {
@@ -72,10 +81,14 @@ public class Switch : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
+            _virtualCamera.Priority = 0;
             _spriteRenderer.color = Color.gray;
             foreach (GameObject p in Pieces)
             {
-                p.GetComponent<PieceController>().OnSwitch = false;
+                if (p != null)
+                {
+                    p.GetComponent<PieceController>().OnSwitch = false;
+                }
             }
         }
         if (_boardController != null)

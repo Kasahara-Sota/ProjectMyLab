@@ -12,6 +12,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: piece Variant 3
       objectReference: {fileID: 0}
+    - target: {fileID: 3951868211372905400, guid: 8a67ac4c6293d94408e0f9eea57440c3, type: 3}
+      propertyPath: m_Color.b
+      value: 0.87169814
+      objectReference: {fileID: 0}
+    - target: {fileID: 3951868211372905400, guid: 8a67ac4c6293d94408e0f9eea57440c3, type: 3}
+      propertyPath: m_Color.g
+      value: 0.8148391
+      objectReference: {fileID: 0}
+    - target: {fileID: 3951868211372905400, guid: 8a67ac4c6293d94408e0f9eea57440c3, type: 3}
+      propertyPath: m_Color.r
+      value: 0.41940188
+      objectReference: {fileID: 0}
     - target: {fileID: 6627778712246230426, guid: 8a67ac4c6293d94408e0f9eea57440c3, type: 3}
       propertyPath: m_LocalPosition.x
       value: 119.127144

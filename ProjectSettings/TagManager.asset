@@ -9,6 +9,7 @@ TagManager:
   - Air
   - Storage
   - ConnectKey
+  - ConnectCounter
   layers:
   - Default
   - TransparentFX

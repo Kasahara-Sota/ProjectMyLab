@@ -49,6 +49,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _canRotate: 0
+  _defaultSize: {x: 0.95, y: 0.95}
+  _clickingSize: {x: 0.1, y: 0.1}
 --- !u!50 &4655973115520120245
 Rigidbody2D:
   serializedVersion: 4

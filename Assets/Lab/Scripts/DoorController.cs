@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class DoorController : MonoBehaviour
 {
@@ -80,11 +81,13 @@ public class DoorController : MonoBehaviour
     public void DoorOpen()
     {
         _col.enabled = false;
-        _spriteRenderer.color = Color.white;
+        //_spriteRenderer.color = Color.white;
+        DOTween.To(() => _spriteRenderer.color, x => _spriteRenderer.color = x, Color.white, 0.5f);
     }
     public void DoorClose()
     {
         _col.enabled = true;
-        _spriteRenderer.color = Color.black;
+        //_spriteRenderer.color = Color.black;
+        DOTween.To(() => _spriteRenderer.color, x => _spriteRenderer.color = x, Color.black, 0.5f);
     }
 }

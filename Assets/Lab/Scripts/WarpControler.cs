@@ -6,27 +6,33 @@ public class WarpControler : MonoBehaviour
 {
     [SerializeField] GameObject _warpPoint;
     public bool CanWarp { get; set; } = true;
-    public bool OnPiece { get; private set; }
+    public int OnPiece { get; private set; }
     public bool OnStorage { get; private set; }
     WarpControler _warp;
     private void Start()
     {
         _warp = _warpPoint.GetComponent<WarpControler>();
     }
-    private void OnTriggerStay2D(Collider2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         //Debug.Log(OnPiece);
-        if (collision.CompareTag("Player") && CanWarp && !collision.gameObject.GetComponent<PlayerController>().m_isMoving)
+        if (collision.CompareTag("Player") && CanWarp)
         {
-            if (_warp.OnPiece && !_warp.OnStorage)
+            Debug.Log(_warp.OnPiece);
+            Debug.Log(_warp.OnStorage);
+            if (_warp.OnPiece > 0 && !_warp.OnStorage)
             {
-                collision.gameObject.transform.position = _warpPoint.transform.position;
+                PlayerController player = collision.gameObject.GetComponent<PlayerController>();
+                player.WarpPos =_warpPoint.transform.position;
+                player.OnWarpPoint = true;
+                //collision.gameObject.transform.position = _warpPoint.transform.position;
                 _warp.CanWarp = false;
             }
         }
         if (collision.CompareTag("Piece"))
         {
-            OnPiece = true;
+            OnPiece++;
+            Debug.Log("OnPiece = true");
         }
         if (collision.CompareTag("Storage"))
         {
@@ -41,7 +47,8 @@ public class WarpControler : MonoBehaviour
         }
         if (collision.CompareTag("Piece"))
         {
-            OnPiece = false;
+            OnPiece--;
+            Debug.Log("OnPiece = false");
         }
         if (collision.CompareTag("Storage"))
         {

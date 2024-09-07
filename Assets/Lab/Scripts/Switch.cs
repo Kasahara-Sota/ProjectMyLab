@@ -43,7 +43,7 @@ public class Switch : MonoBehaviour
     }
     public void DoorOpen()
     {
-        Debug.Log("DoorOpen");
+        //Debug.Log("DoorOpen");
         if (_controller != null)
         {
             if (flag)

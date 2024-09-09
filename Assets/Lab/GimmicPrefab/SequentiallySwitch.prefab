@@ -194,7 +194,7 @@ GameObject:
   - component: {fileID: 8890478597189597277}
   - component: {fileID: 4627367588847131783}
   - component: {fileID: 6046719971275385334}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: SequentiallySwitch
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -355,4 +355,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _switchNumber: 0
   Pressed: 0
+  _defaultColor: {r: 0, g: 0, b: 0, a: 0}
   _pressedColor: {r: 0.6679245, g: 0, b: 0.6064315, a: 0.69411767}

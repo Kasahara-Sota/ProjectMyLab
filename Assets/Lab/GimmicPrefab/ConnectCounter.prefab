@@ -115,7 +115,7 @@ GameObject:
   - component: {fileID: 6745365451668887555}
   - component: {fileID: 764489244339404010}
   - component: {fileID: 7784166177637555942}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: ConnectCounter
   m_TagString: ConnectCounter
   m_Icon: {fileID: 0}

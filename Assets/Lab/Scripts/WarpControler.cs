@@ -32,7 +32,6 @@ public class WarpControler : MonoBehaviour
         if (collision.CompareTag("Piece"))
         {
             OnPiece++;
-            Debug.Log("OnPiece = true");
         }
         if (collision.CompareTag("Storage"))
         {
@@ -48,7 +47,6 @@ public class WarpControler : MonoBehaviour
         if (collision.CompareTag("Piece"))
         {
             OnPiece--;
-            Debug.Log("OnPiece = false");
         }
         if (collision.CompareTag("Storage"))
         {

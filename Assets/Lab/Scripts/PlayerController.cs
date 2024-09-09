@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] LayerMask m_walkableLayerMask;
     /// <summary>移動中フラグ</summary>
     public bool m_isMoving { get; private set; } = false;
+    public bool OnKey { get; set; } = false;
     public int KeyCount { get; set; }
     public Vector2 WarpPos { get; set; }
     public bool OnWarpPoint {  get; set; } = false;
@@ -73,14 +74,6 @@ public class PlayerController : MonoBehaviour
     Vector2Int m_destination;
 
     /// <summary>
-    /// オブジェクトが移動中ならば true, そうでない場合は false を返す
-    /// </summary>
-    public bool IsMoving
-    {
-        get { return m_isMoving; }
-    }
-
-    /// <summary>
     /// 指定された相対座標に滑らかに移動する。指定された座標に移動できない場合は何もしない。
     /// </summary>
     /// <param name="x">移動する X 座標</param>
@@ -107,7 +100,7 @@ public class PlayerController : MonoBehaviour
                 m_isMoving = true;
                 //StartCoroutine(MoveRoutine(x, y, moveTime));
                 //Debug.Log(destination);
-                DOTween.To(() => transform.position, p => transform.position = p, destination, moveTime).OnComplete(MoveComplete);
+                DOTween.To(() => transform.position, p => transform.position = p, destination, moveTime).SetEase(Ease.Linear).OnComplete(MoveComplete);
                 return true;
             }
             else
@@ -118,6 +111,10 @@ public class PlayerController : MonoBehaviour
     }
     private void MoveComplete()
     {
+        if (KeyCount > 0 && !OnKey)
+        {
+            KeyCount--;
+        }
         //Debug.Log($"OnWarpPoint={OnWarpPoint}");
         if(OnWarpPoint)
         {
@@ -126,10 +123,6 @@ public class PlayerController : MonoBehaviour
         }
         _fleezeTimer = 0;
         m_isMoving = false;
-        if (KeyCount > 0)
-        {
-            KeyCount--;
-        }
     }
     /// <summary>
     /// 指定された相対座標に滑らかに移動する

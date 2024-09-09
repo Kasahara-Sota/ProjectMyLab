@@ -13,6 +13,7 @@ public class PieceController : MonoBehaviour
     bool col;
     int col2 = 0;
     int col3 = 0;
+    int col4 = 0;
     public bool OnBoard { get; private set; } = true;
     public bool OnSwitch {  get; set; }
     Vector2 _pos;
@@ -23,7 +24,7 @@ public class PieceController : MonoBehaviour
         {
             Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             //Debug.Log(pos);
-            if (col2 == 0)
+            if (col2 == 0 && col4 == transform.childCount)
             {
                 if (col3 == 0)
                 {
@@ -35,7 +36,7 @@ public class PieceController : MonoBehaviour
             this.transform.parent.position = pos + Vector3.forward * 5;
             transform.position =new Vector3 (transform.position.x,transform.position.y,0);
             //Debug.Log(pos + Vector3.forward * 5);
-            if(Input.GetKeyDown(KeyCode.R))
+            if(Input.GetKeyDown(KeyCode.R) && _canRotate)
             {
                 Vector3 rotate = this.transform.parent.transform.eulerAngles;
                 rotate.z -= 90;
@@ -74,15 +75,16 @@ public class PieceController : MonoBehaviour
         }
         Array.ForEach(GetComponentsInChildren<BoxCollider2D>(), x => x.size = _defaultSize);
         Cursor.lockState = CursorLockMode.None;
+        //ピース置き場に上にないとき
         if (col3 == 0)
         {
+            //Debug.Log($"{col4},{transform.childCount}");
             OnBoard = false;
-            if(col2 > 0)
+            if(col2 > 0 || col4 != transform.childCount)
             transform.parent.position = _pos;
         }
         else
         {
-            //Debug.Log($"{col3},{transform.childCount}");
             if(col3 != transform.childCount)
             {
                 transform.parent.position = _pos;
@@ -117,5 +119,9 @@ public class PieceController : MonoBehaviour
     public void OnStorage(int quantity)
     {
         col3 += quantity;
+    }
+    public void OnAir(int quantity)
+    {
+        col4 += quantity;
     }
 }

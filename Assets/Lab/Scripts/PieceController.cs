@@ -50,7 +50,7 @@ public class PieceController : MonoBehaviour
     }
     public void Clicked()
     {
-        if (_isClick && !OnSwitch)
+        if (_isClick || !OnSwitch)
         {
             return;
         }

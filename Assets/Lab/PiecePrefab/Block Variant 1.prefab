@@ -70,6 +70,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 7575231235196424, guid: 6c9be11c7e640fe4c98a578acd9a55f7, type: 3}
+      propertyPath: _defaultOrderInLayer
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 3671736651510816286, guid: 6c9be11c7e640fe4c98a578acd9a55f7, type: 3}
       propertyPath: m_Name
       value: Block Variant 1

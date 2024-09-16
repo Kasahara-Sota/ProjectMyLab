@@ -52,6 +52,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Block Variant 6
       objectReference: {fileID: 0}
+    - target: {fileID: 7668825759051363468, guid: f30e7002e6dad8444bfd623b91117e8b, type: 3}
+      propertyPath: _defaultOrderInLayer
+      value: 7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 392445419554285224, guid: f30e7002e6dad8444bfd623b91117e8b, type: 3}

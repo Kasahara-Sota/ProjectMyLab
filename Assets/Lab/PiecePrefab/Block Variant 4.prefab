@@ -74,6 +74,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Block Variant 4
       objectReference: {fileID: 0}
+    - target: {fileID: 4134214662355735681, guid: 9a1c54ff6b79664428fe6b59e295f55c, type: 3}
+      propertyPath: _defaultOrderInLayer
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 4829782862718800754, guid: 9a1c54ff6b79664428fe6b59e295f55c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 124.27993

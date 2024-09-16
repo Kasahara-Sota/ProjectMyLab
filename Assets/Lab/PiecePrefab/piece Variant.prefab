@@ -60,6 +60,10 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 9096255525519104344, guid: afa0ae8b4b7dcb542b42d9dbbb33817f, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 9128917186274799747, guid: afa0ae8b4b7dcb542b42d9dbbb33817f, type: 3}
       propertyPath: m_Name
       value: piece Variant

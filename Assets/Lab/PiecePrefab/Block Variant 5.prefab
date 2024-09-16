@@ -48,6 +48,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5933075179084715090, guid: 12776c2fc3357784cb7a7b24e3251463, type: 3}
+      propertyPath: _defaultOrderInLayer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 6969545646537706564, guid: 12776c2fc3357784cb7a7b24e3251463, type: 3}
       propertyPath: m_Name
       value: Block Variant 5

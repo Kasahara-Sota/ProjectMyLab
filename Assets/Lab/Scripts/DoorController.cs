@@ -12,6 +12,8 @@ public class DoorController : MonoBehaviour
     [SerializeField] bool _isUseSequentiallySwitch;
     [SerializeField] bool _isUseConnectCounter;
     private bool AllFlag;
+    [SerializeField] AudioClip _openSound;
+    [SerializeField] AudioClip _closeSound;
     [HideInInspector] public bool IsUseAllPiece;
     [HideInInspector] public bool IsUseKey;
     [HideInInspector] public bool ConnectKeyStatus;
@@ -20,13 +22,17 @@ public class DoorController : MonoBehaviour
     [HideInInspector] public bool IsConnectCounter;
     Collider2D _col;
     SpriteRenderer _spriteRenderer;
+    GameObject _player;
     PlayerController _playerController;
+    AudioSource _audioSource;
     // Start is called before the first frame update
     void Start()
     {
         _col = GetComponent<Collider2D>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
-        _playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+        _player = GameObject.FindGameObjectWithTag("Player");
+        _playerController = _player.GetComponent<PlayerController>();
+        _audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -42,7 +48,7 @@ public class DoorController : MonoBehaviour
         }
         if (_isUseKey)
         {
-            transform.GetChild(0).gameObject.transform.GetChild(0).gameObject.GetComponent<Text>().text = _playerController.KeyCount.ToString();
+            transform.GetChild(0).gameObject.transform.GetChild(0).gameObject.GetComponent<Text>().text = _playerController.KeyCount == 0 ? "" : _playerController.KeyCount.ToString();
             if (_playerController.KeyCount == 0)
             {
                 AllFlag = false;
@@ -57,14 +63,14 @@ public class DoorController : MonoBehaviour
         }
         if (_isUseSequentiallySwitch)
         {
-            if(!PressedAllSequentiallySwitch)
+            if (!PressedAllSequentiallySwitch)
             {
                 AllFlag = false;
             }
         }
         if (_isUseConnectCounter)
         {
-            if(!IsConnectCounter)
+            if (!IsConnectCounter)
             {
                 AllFlag = false;
             }
@@ -80,14 +86,32 @@ public class DoorController : MonoBehaviour
     }
     public void DoorOpen()
     {
-        _col.enabled = false;
-        //_spriteRenderer.color = Color.white;
-        DOTween.To(() => _spriteRenderer.color, x => _spriteRenderer.color = x, Color.white, 0.5f);
+        if (_col.enabled)
+        {
+            _col.enabled = false;
+            //_spriteRenderer.color = Color.white;
+            DOTween.To(() => _spriteRenderer.color, x => _spriteRenderer.color = x, Color.white, 0.5f);
+            //_audioSource.PlayOneShot(_openSound);
+            _audioSource.clip = _openSound;
+            if (Vector2.Distance(_player.transform.position, transform.position) < 10)
+            {
+                _audioSource.Play();
+            }
+        }
     }
     public void DoorClose()
     {
-        _col.enabled = true;
-        //_spriteRenderer.color = Color.black;
-        DOTween.To(() => _spriteRenderer.color, x => _spriteRenderer.color = x, Color.black, 0.5f);
+        if (!_col.enabled)
+        {
+            _col.enabled = true;
+            //_spriteRenderer.color = Color.black;
+            DOTween.To(() => _spriteRenderer.color, x => _spriteRenderer.color = x, Color.black, 0.5f);
+            //_audioSource.PlayOneShot(_closeSound);
+            _audioSource.clip = _closeSound;
+            if (Vector2.Distance(_player.transform.position, transform.position) < 10)
+            {
+                _audioSource.Play();
+            }
+        }
     }
 }

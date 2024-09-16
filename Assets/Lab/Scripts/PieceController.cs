@@ -9,6 +9,10 @@ public class PieceController : MonoBehaviour
     [SerializeField] bool _canRotate;
     [SerializeField] Vector2 _defaultSize;
     [SerializeField] Vector2 _clickingSize;
+    [SerializeField]int _defaultOrderInLayer;
+    [SerializeField] AudioClip _holdSound;
+    [SerializeField] AudioClip _fitSound;
+    AudioSource _audioSource;
     private bool _isClick;
     bool col;
     int col2 = 0;
@@ -17,6 +21,10 @@ public class PieceController : MonoBehaviour
     public bool OnBoard { get; private set; } = true;
     public bool OnSwitch {  get; set; }
     Vector2 _pos;
+    private void Start()
+    {
+        _audioSource = GetComponent<AudioSource>();
+    }
     private void Update()
     {
         //Debug.Log(Cursor.lockState);
@@ -54,6 +62,7 @@ public class PieceController : MonoBehaviour
         {
             return;
         }
+        GetComponentsInChildren<SpriteRenderer>().Where(s => s?.color != Color.black).ToList().ForEach(s => s.sortingOrder = 100); 
         Array.ForEach(GetComponentsInChildren<BoxCollider2D>(),x => x.size = _clickingSize);
         Cursor.lockState = CursorLockMode.Confined;
         GameObject obj = new GameObject();
@@ -66,6 +75,7 @@ public class PieceController : MonoBehaviour
         _pos = transform.parent.position;
         //Debug.Log(this.gameObject.name);
         _isClick = true;
+        _audioSource.PlayOneShot(_holdSound);
     }
     public void Released()
     {
@@ -73,6 +83,7 @@ public class PieceController : MonoBehaviour
         {
             return;
         }
+        GetComponentsInChildren<SpriteRenderer>().Where(s => s?.color != Color.black).ToList().ForEach(s => s.sortingOrder = _defaultOrderInLayer);
         Array.ForEach(GetComponentsInChildren<BoxCollider2D>(), x => x.size = _defaultSize);
         Cursor.lockState = CursorLockMode.None;
         //ピース置き場に上にないとき
@@ -81,7 +92,9 @@ public class PieceController : MonoBehaviour
             //Debug.Log($"{col4},{transform.childCount}");
             OnBoard = false;
             if(col2 > 0 || col4 != transform.childCount)
-            transform.parent.position = _pos;
+            {
+                transform.parent.position = _pos;
+            }
         }
         else
         {
@@ -102,6 +115,7 @@ public class PieceController : MonoBehaviour
         transform.SetParent(null);
         Destroy(parent.gameObject);
         _isClick = false;
+        _audioSource.PlayOneShot(_fitSound);
     }
     //private void OnTriggerStay2D(Collider2D collision)
     //{

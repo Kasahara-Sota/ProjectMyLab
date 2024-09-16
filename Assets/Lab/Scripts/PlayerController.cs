@@ -1,6 +1,7 @@
 using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -23,14 +24,18 @@ public class PlayerController : MonoBehaviour
     public int KeyCount { get; set; }
     public Vector2 WarpPos { get; set; }
     public bool OnWarpPoint {  get; set; } = false;
+    private Vector2 _ResetPos;
+    private bool _onPuzzleSwitch;
     Rigidbody2D _rb;
+    AudioSource _audioSource;
     // Start is called before the first frame update
     void Start()
     {
+        _ResetPos = transform.position;
         _rb = GetComponent<Rigidbody2D>();
         // シーン内のすべてのオブジェクトを取得
         GameObject[] allObjects = FindObjectsOfType<GameObject>();
-
+        _audioSource = GetComponent<AudioSource>();
         // オブジェクトの数を表示
         Debug.Log("シーン内のオブジェクト数: " + allObjects.Length);
     }
@@ -39,6 +44,17 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         //Debug.Log("isMoving=" + m_isMoving);
+        if(!m_isMoving && Input.GetKeyDown(KeyCode.R))
+        {
+            transform.position = _ResetPos;
+            KeyCount = 0;
+            return;
+        }
+        if(Input.GetMouseButton(0) || Input.GetMouseButton(1) || Input.GetMouseButton(2))
+        {
+            _fleezeTimer = 0;
+            return;
+        }
         float x = Input.GetAxisRaw("Horizontal");
         float y = Input.GetAxisRaw("Vertical");
         if (!m_isMoving && _fleezeTimer > _fleezeMove)
@@ -70,6 +86,22 @@ public class PlayerController : MonoBehaviour
         }
         _fleezeTimer += Time.deltaTime;
     }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.gameObject.CompareTag("PuzzleSwitch"))
+        {
+            _onPuzzleSwitch = true;
+            _ResetPos = collision.transform.position;
+        }
+    }
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("PuzzleSwitch"))
+        {
+            _onPuzzleSwitch = false;
+        }
+    }
     /// <summary>Move で指定された目的地を保存する</summary>
     Vector2Int m_destination;
 
@@ -100,6 +132,7 @@ public class PlayerController : MonoBehaviour
                 m_isMoving = true;
                 //StartCoroutine(MoveRoutine(x, y, moveTime));
                 //Debug.Log(destination);
+                _audioSource.Play();
                 DOTween.To(() => transform.position, p => transform.position = p, destination, moveTime).SetEase(Ease.Linear).OnComplete(MoveComplete);
                 return true;
             }
@@ -118,10 +151,10 @@ public class PlayerController : MonoBehaviour
         //Debug.Log($"OnWarpPoint={OnWarpPoint}");
         if(OnWarpPoint)
         {
-            transform.position = WarpPos;
+            transform.position =new Vector3(WarpPos.x,WarpPos.y,transform.position.z);
             OnWarpPoint = false;
         }
-        _fleezeTimer = 0;
+        _audioSource.Stop();
         m_isMoving = false;
     }
     /// <summary>
